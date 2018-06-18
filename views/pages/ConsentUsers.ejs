@@ -23,7 +23,8 @@
 
 <body>
     <div class="container">
-		<h2>Users:</h2>
+		<h2>Consent status</h2>
+		<div>Consent ID: <%= consentPath %><br>Last updated: <%= time %></div><br>
 		<table>
 		<tr><th>UID</th> <th>Is Consent Granted</th> <th>Consent Last Modified</th> <th>Doc Version</th>
 		<% users.forEach(function(x) { %>

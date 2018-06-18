@@ -63,7 +63,7 @@ function renderConsentUsers(req, res){
 			return ret;
 		});
 		
-		res.render('pages/ConsentUsers', {users:users})		
+		res.render('pages/ConsentUsers', {users:users, time: json.time, consentPath: pathToConsent});
 	});
 };
 
