@@ -20,7 +20,7 @@ function renderConsentUsers(req, res){
 	var userKey = encodeURIComponent(process.env.userKey);
 	var userSecret = encodeURIComponent(process.env.userSecret);
 	var query = encodeURIComponent('select UID,preferences from accounts limit 30');
-	var url = 'https://accounts.eu1.gigya.com/accounts.search?apikey='+apikey+'&userKey='+userKey+'&secret='+userSecret+'&query='+query;
+	var url = 'https://accounts.eu1.gigya.com/accounts.search?apikey='+apikey+'&us1erKey='+userKey+'&secret='+userSecret+'&query='+query;
 	
 	var pathToConsent = '';
 	if (req.query.policy === '1')
@@ -38,15 +38,12 @@ function renderConsentUsers(req, res){
 	
 	outboundRequest(url, (error, inboundResponse, body) => {
 		if (error || inboundResponse.statusCode != 200) {
-			console.log('Got error calling accounts.search');
 			res.render('pages/Error', {error:'Failed calling Gigya (accounts.search)', details: body});
 			return;
 		}
 		
 		var json = JSON.parse(body);
 		if (json.errorCode != 0){
-			console.log('accounts.search return failure error code');			
-			console.log(body);
 			res.render('pages/Error', {error:'Got error from Gigya (accounts.search)', details: body });
 			return;
 		}
