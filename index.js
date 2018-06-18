@@ -30,7 +30,7 @@ function renderConsentUsers(req, res){
 	else if (req.query.policy === '3')
 		pathToConsent = 'WebIDE_Demo_3'
 	else {
-		res.render('pages/Error', {error:'Invalid value for policy param. Supported values are 1, 2, 3'});
+		res.render('pages/Error', {error:'Invalid value for policy param. Supported values are 1, 2, 3', details: ''});
 		return;
 	}
 	var getConsentObject = x => x.preferences.privacy[pathToConsent];
