@@ -20,7 +20,7 @@ function renderConsentUsers(req, res){
 	var userKey = encodeURIComponent(process.env.userKey);
 	var userSecret = encodeURIComponent(process.env.userSecret);
 	var query = encodeURIComponent('select UID,preferences from accounts limit 30');
-	var url = 'https://accounts.eu1.gigya.com/accounts.search?apikey='+apikey+'&us1erKey='+userKey+'&secret='+userSecret+'&query='+query;
+	var url = 'https://accounts.eu1.gigya.com/accounts.search?apikey='+apikey+'&userKey='+userKey+'&secret='+userSecret+'&query='+query;
 	
 	var pathToConsent = '';
 	if (req.query.policy === '1')
