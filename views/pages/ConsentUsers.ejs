@@ -26,10 +26,11 @@
 		<h2>Consent status</h2>
 		<div>Consent ID: <%= consentPath %><br>Last updated: <%= time %></div><br>
 		<table>
-		<tr><th>UID</th> <th>Is Consent Granted</th> <th>Consent Last Modified</th> <th>Doc Version</th>
+		<tr><th>UID</th> <th>Created</th> <th>Is Consent Granted</th> <th>Consent Last Modified</th> <th>Doc Version</th>
 		<% users.forEach(function(x) { %>
 			<tr>
 				<td><%= x.uid %></td>
+				<td><%= x.created %></td>
 				<%if (x.isConsentGranted) { %>
 					<td style="color:Lime">True</td>
 				<% } else { %>
