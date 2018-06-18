@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Service Monitor</title>
+    <!-- <meta http-equiv="refresh" content="30"> -->
+    <style>
+        table, th, td {
+            border: 1px dashed lightgrey;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 5px;
+        }
+		th.wrap {
+			width:10px; 
+			word-wrap:break-word;
+		}
+		div.legend {
+			width: 350px;    
+		}
+    </style>
+</head>
+
+<body>
+    <div class="container">
+		<h2>Users:</h2>
+		<table>
+		<tr><th>UID</th> <th>Email</th> <th>Is Consent Granted</th> <th>Consent Last Modified</th> <th>Doc Version</th>
+		<% users.forEach(function(x) { %>
+			<tr>
+				<td><%= x.uid %></td>
+				<td><%= x.email %></td>
+				<%if (x.isConsentGranted) { %>
+					<td style="color:Green">True</td>
+				<% } else { %>
+					<td style="color:Red">False</td>
+				<% } %>
+				<td><%= x.consentLastModified %></td>
+				<td><%= x.docVersion %></td>
+			</tr>
+		<% }); %>
+        </table>
+    </div>
+</body>
+</html>
