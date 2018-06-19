@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<title>Consent Status</title>
     <script id='sap-ui-bootstrap'
             src='https://openui5.hana.ondemand.com/resources/sap-ui-core.js'
             data-sap-ui-theme='sap_belize'
@@ -50,8 +51,6 @@
          oTable.placeAt("tableContent");
       });
     </script>
-    <title>Consent users</title>
-    <!-- <meta http-equiv="refresh" content="30"> -->
     <style>
         table, th, td {
             border: 1px dashed lightgrey;
@@ -75,10 +74,11 @@
 
 <body>
 <div class="container">
-    <h2>Consent status</h2>
-    <div>Consent ID: <%= consentPath %><br>Last updated: <%= time %></div>
+    <h2>Consent Status</h2>
+    <div>Consent ID: <%= consentPath %><br>Last updated: <%= time %></script></div>
     <br>
     <div id="tableContent"></div>
+	
 </div>
 </body>
 </html>

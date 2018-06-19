@@ -51,21 +51,36 @@ function renderConsentUsers(req, res){
 		var users = json.results.map(x => {
 			var ret = {};
 			ret.uid = x.UID;
-			ret.created = x.created;
+			ret.created = toLocalTime(x.created);
 			if (x.preferences !== undefined){
 				var consentObject = getConsentObject(x);
 				if (consentObject !== undefined) {
 					ret.isConsentGranted = getConsentObject(x).isConsentGranted;
-					ret.consentLastModified = getConsentObject(x).lastConsentModified;
+					ret.consentLastModified = toLocalTime(getConsentObject(x).lastConsentModified);
 					ret.docVersion = getConsentObject(x).docVersion;
 				}
 			}
 			return ret;
 		});
 		
-		res.render('pages/ConsentUsers', {users:users, time: json.time, consentPath: pathToConsent});
+		res.render('pages/ConsentUsers', {users:users, time: toLocalTime(json.time), consentPath: pathToConsent});
 	});
 };
+
+function toLocalTime(time){
+	var d = new Date(time);
+	var offset = (new Date().getTimezoneOffset() / 60) * -1;
+	var n = new Date(d.getTime() + offset);
+	return n.toLocaleString() + ' ' + (offset>0?'+':'') + withLeadingZero(offset) + ':00';
+};
+
+function withLeadingZero(number){
+	if (number > 0 && number < 10)
+		return '0' + number;
+	if (number < 0 && number > -10)
+		return '-0' + number*-1;	
+	return number;
+}
 
 
 	
