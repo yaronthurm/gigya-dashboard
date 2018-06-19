@@ -19,7 +19,7 @@ function renderConsentUsers(req, res){
 	var apikey = encodeURIComponent('3_HJZUjKpjd2FCO-hxLCDiOAVlFsznc7XilpDP-Z4AR_ifNRhB3MZUOP0chnwoIWoG');
 	var userKey = encodeURIComponent(process.env.userKey);
 	var userSecret = encodeURIComponent(process.env.userSecret);
-	var query = encodeURIComponent('select UID,preferences,created from accounts limit 30');
+	var query = encodeURIComponent('select UID,preferences,created from accounts order by lastUpdated desc limit 30');
 	var url = 'https://accounts.eu1.gigya.com/accounts.search?apikey='+apikey+'&userKey='+userKey+'&secret='+userSecret+'&query='+query;
 	
 	var pathToConsent = '';
