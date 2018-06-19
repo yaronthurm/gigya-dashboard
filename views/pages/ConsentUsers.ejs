@@ -1,84 +1,136 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Consent Status</title>
     <script id='sap-ui-bootstrap'
             src='https://openui5.hana.ondemand.com/resources/sap-ui-core.js'
             data-sap-ui-theme='sap_belize'
             data-sap-ui-libs='sap.m'>
     </script>
-    <script>
-      function getUsers() {
-		return <%- JSON.stringify(users) %>;
-      }
-      sap.ui.getCore().attachInit(function () {
-         var oTable = new sap.m.Table({
-            columns: [
-               new sap.m.Column({
-                  header: new sap.m.Text({text: "UID"})
-               }),
-               new sap.m.Column({
-                  header: new sap.m.Text({text: "Created"})
-               }),
-               new sap.m.Column({
-                  header: new sap.m.Text({text: "Is Consent Granted"})
-               }),
-               new sap.m.Column({
-                  header: new sap.m.Text({text: "Consent Last Modified"})
-               }),
-               new sap.m.Column({
-                  header: new sap.m.Text({text: "Doc Version"})
-               })
-            ]
-         });
-         oTable.bindItems({
-            path: "/data",
-            template: new sap.m.ColumnListItem({
-               cells: [
-                  new sap.m.Text({text: "{uid}"}),
-                  new sap.m.Text({text: "{created}"}),
-                  new sap.m.CheckBox({selected: "{isConsentGranted}"}),
-                  new sap.m.Text({text: "{consentLastModified}"}),
-                  new sap.m.Text({text: "{docVersion}"})
-               ]
-            })
-         });
 
-         oTable.setModel(new sap.ui.model.json.JSONModel({
-            data: getUsers()
-         }));
-
-         oTable.placeAt("tableContent");
-      });
-    </script>
     <style>
-        table, th, td {
-            border: 1px dashed lightgrey;
-            border-collapse: collapse;
+        .header{
+            height: 3.25rem;
+            line-height: 3.25rem;
+            padding: 0 2rem;
+            color: #0c73b5;
+            text-shadow: 0 0 0.125rem #fff;
+            background-color: #fff;
+            border-bottom: 1px solid #427cac;
+            font-size: 1.5rem;
+            font-family: "72",Arial,Helvetica,sans-serif;
+        }
+        .consentPropContent{
+            padding: 0 2rem;
+            font-family: "72",Arial,Helvetica,sans-serif;
+            font-size: 1rem;
+            line-height: 1.75rem;
+        }
+        .tableContent{
+            padding: 0 2rem;
         }
 
-        th, td {
-            padding: 5px;
+        .container .columnStyle{
+            line-height: 1.25rem;
+            font-size: 0.9rem;
+            color: #0c73b5;
+            font-weight: bold;
         }
 
-        th.wrap {
-            width: 10px;
-            word-wrap: break-word;
+        .tableRow{
+            line-height: 3rem;
         }
 
-        div.legend {
-            width: 350px;
-        }
     </style>
+
+    <script>
+		sap.ui.getCore().attachInit(function () {
+			var oTable = new sap.m.Table({
+				showOverlay: false,
+				columns: [
+					new sap.m.Column({
+						header: new sap.m.Text({text: "UID"}).addStyleClass("columnStyle")
+					}),
+					new sap.m.Column({
+						header: new sap.m.Text({text: "Created"}).addStyleClass("columnStyle")
+					}),
+					new sap.m.Column({
+						header: new sap.m.Text({text: "Is Consent Granted"}).addStyleClass("columnStyle")
+					}),
+					new sap.m.Column({
+						header: new sap.m.Text({text: "Consent Last Modified"}).addStyleClass("columnStyle")
+					}),
+					new sap.m.Column({
+						header: new sap.m.Text({text: "Doc Version"}).addStyleClass("columnStyle")
+					})
+				]
+			}).addStyleClass("tableStyle");
+			oTable.bindItems({
+				path: "/data/concents",
+				template: new sap.m.ColumnListItem({
+					cells: [
+						new sap.m.Text({text: "{uid}"}),
+						new sap.m.Text({text: "{created}"}),
+						new sap.m.CheckBox({selected: "{isConsentGranted}",
+							displayOnly: true}),
+						new sap.m.Text({text: "{consentLastModified}"}),
+						new sap.m.Text({text: "{docVersion}"})
+					]
+				}).addStyleClass("tableRow")
+			});
+
+			var oModel = new sap.ui.model.json.JSONModel({
+				data: {
+					concents: <%- JSON.stringify(users) %>,
+					concentId: <%- JSON.stringify(consentPath) %>,
+					lastUpdated: <%- JSON.stringify(time) %>
+				}
+			});
+
+			oTable.setModel(oModel);
+			oTable.placeAt("tableContent");
+
+			var VBox = sap.m.VBox({
+				items: [
+					new sap.m.HBox({
+						items: [
+							new sap.m.Label({
+								text: "Consent ID:",
+								width: "6rem"
+							}),
+							new sap.m.Text({}).bindText("/data/concentId")
+						]
+					}),
+					new sap.m.HBox({
+						items: [
+							new sap.m.Label({
+								text: "Last updated:",
+								width: "6rem"
+							}),
+							new sap.m.Text({}).bindText("/data/lastUpdated")
+						]
+					})
+				]
+			});
+
+			VBox.setModel(oModel);
+
+			VBox.placeAt("consentPropContent");
+		});
+
+
+
+    </script>
+
+    <title>Consent Status</title>
 </head>
 
 <body>
 <div class="container">
-    <h2>Consent Status</h2>
-    <div>Consent ID: <%= consentPath %><br>Last updated: <%= time %></script></div>
+    <div class="header">Consent Status</div>
     <br>
-    <div id="tableContent"></div>
-	
+    <div id="consentPropContent" class="consentPropContent"></div>
+    <br>
+    <div id="tableContent" class="tableContent"></div>
 </div>
 </body>
 </html>
