@@ -11,12 +11,10 @@
         .header{
             height: 3.25rem;
             line-height: 3.25rem;
-            padding: 0 2rem;
-            color: #0c73b5;
             text-shadow: 0 0 0.125rem #fff;
             background-color: #fff;
-            border-bottom: 1px solid #427cac;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
+            padding-right: 1rem;
             font-family: "72",Arial,Helvetica,sans-serif;
         }
         .consentPropContent{
@@ -29,11 +27,19 @@
             padding: 0 2rem;
         }
 
+        .headerHBox{
+            padding: 2rem 2rem 0 2rem;
+        }
+
         .container .columnStyle{
             line-height: 1.25rem;
             font-size: 0.9rem;
             color: #0c73b5;
             font-weight: bold;
+        }
+
+        .iconStyle{
+            opacity: 0.6;
         }
 
         .tableRow{
@@ -115,6 +121,20 @@
 			VBox.setModel(oModel);
 
 			VBox.placeAt("consentPropContent");
+
+			var oHeader = new sap.m.HBox({
+				items: [
+					new sap.ui.core.Icon({
+						src: "sap-icon://account",
+						size: "1.1rem"
+					    }).addStyleClass("header iconStyle"),
+					new sap.m.Label({
+						text: "Consent status"
+					}).addStyleClass("header")
+                ]
+			}).addStyleClass("headerHBox");
+
+			oHeader.placeAt("consentStatus");
 		});
 
 
@@ -126,10 +146,8 @@
 
 <body>
 <div class="container">
-    <div class="header">Consent Status</div>
-    <br>
+    <div id="consentStatus"></div>
     <div id="consentPropContent" class="consentPropContent"></div>
-    <br>
     <div id="tableContent" class="tableContent"></div>
 </div>
 </body>
