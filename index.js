@@ -68,6 +68,7 @@ function renderConsentUsers(req, res){
 };
 
 function toLocalTime(time){
+	return time;
 	var d = new Date(time);
 	var offset = (new Date().getTimezoneOffset() / 60) * -1;
 	var n = new Date(d.getTime() + offset);
