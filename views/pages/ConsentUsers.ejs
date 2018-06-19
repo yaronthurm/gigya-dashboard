@@ -1,6 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script id='sap-ui-bootstrap'
+            src='https://openui5.hana.ondemand.com/resources/sap-ui-core.js'
+            data-sap-ui-theme='sap_belize'
+            data-sap-ui-libs='sap.m'>
+    </script>
+    <script>
+      function getUsers() {
+		return <%- JSON.stringify(users) %>;
+      }
+      sap.ui.getCore().attachInit(function () {
+         var oTable = new sap.m.Table({
+            columns: [
+               new sap.m.Column({
+                  header: new sap.m.Text({text: "UID"})
+               }),
+               new sap.m.Column({
+                  header: new sap.m.Text({text: "Created"})
+               }),
+               new sap.m.Column({
+                  header: new sap.m.Text({text: "Is Consent Granted"})
+               }),
+               new sap.m.Column({
+                  header: new sap.m.Text({text: "Consent Last Modified"})
+               }),
+               new sap.m.Column({
+                  header: new sap.m.Text({text: "Doc Version"})
+               })
+            ]
+         });
+         oTable.bindItems({
+            path: "/data",
+            template: new sap.m.ColumnListItem({
+               cells: [
+                  new sap.m.Text({text: "{uid}"}),
+                  new sap.m.Text({text: "{created}"}),
+                  new sap.m.CheckBox({selected: "{isConsentGranted}"}),
+                  new sap.m.Text({text: "{consentLastModified}"}),
+                  new sap.m.Text({text: "{docVersion}"})
+               ]
+            })
+         });
+
+         oTable.setModel(new sap.ui.model.json.JSONModel({
+            data: getUsers()
+         }));
+
+         oTable.placeAt("tableContent");
+      });
+    </script>
     <title>Consent users</title>
     <!-- <meta http-equiv="refresh" content="30"> -->
     <style>
@@ -8,39 +57,28 @@
             border: 1px dashed lightgrey;
             border-collapse: collapse;
         }
+
         th, td {
             padding: 5px;
         }
-		th.wrap {
-			width:10px; 
-			word-wrap:break-word;
-		}
-		div.legend {
-			width: 350px;    
-		}
+
+        th.wrap {
+            width: 10px;
+            word-wrap: break-word;
+        }
+
+        div.legend {
+            width: 350px;
+        }
     </style>
 </head>
 
 <body>
-    <div class="container">
-		<h2>Consent status</h2>
-		<div>Consent ID: <%= consentPath %><br>Last updated: <%= time %></div><br>
-		<table>
-		<tr><th>UID</th> <th>Created</th> <th>Is Consent Granted</th> <th>Consent Last Modified</th> <th>Doc Version</th>
-		<% users.forEach(function(x) { %>
-			<tr>
-				<td><%= x.uid %></td>
-				<td><%= x.created %></td>
-				<%if (x.isConsentGranted) { %>
-					<td style="color:Lime">True</td>
-				<% } else { %>
-					<td style="color:Red">False</td>
-				<% } %>
-				<td><%= x.consentLastModified %></td>
-				<td><%= x.docVersion %></td>
-			</tr>
-		<% }); %>
-        </table>
-    </div>
+<div class="container">
+    <h2>Consent status</h2>
+    <div>Consent ID: <%= consentPath %><br>Last updated: <%= time %></div>
+    <br>
+    <div id="tableContent"></div>
+</div>
 </body>
 </html>
